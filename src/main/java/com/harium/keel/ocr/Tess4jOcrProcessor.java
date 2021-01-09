@@ -77,4 +77,12 @@ public class Tess4jOcrProcessor implements Processor<String> {
         return this;
     }
 
+    public static class Whitelist {
+
+        public static final String LETTERS_LOWER_CASE = "abcdefghijklmnopqrstuwvxyz";
+        public static final String LETTERS_UPPER_CASE = "ABCDEFGHIJKLMNOPQRSTUWVXYZ";
+        public static final String NUMBERS_ONLY = "0123456789";
+        public static final String LETTERS_AND_NUMBERS_ONLY = LETTERS_LOWER_CASE + LETTERS_UPPER_CASE + NUMBERS_ONLY;
+
+    }
 }

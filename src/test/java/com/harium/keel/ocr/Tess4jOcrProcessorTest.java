@@ -34,6 +34,7 @@ public class Tess4jOcrProcessorTest {
         File file = new File("src/main/resources/captcha1.png");
         BufferedImage image = ImageIO.read(file);
 
+        processor.whitelist(Tess4jOcrProcessor.Whitelist.LETTERS_UPPER_CASE);
         String text = processor.apply(new BufferedImageSource(image));
         assertEquals("IBTWG", text);
     }
@@ -43,6 +44,7 @@ public class Tess4jOcrProcessorTest {
         File file = new File("src/main/resources/captcha2.png");
         BufferedImage image = ImageIO.read(file);
 
+        processor.whitelist(Tess4jOcrProcessor.Whitelist.LETTERS_UPPER_CASE);
         String text = processor.apply(new BufferedImageSource(image));
         assertEquals("MVBLB", text);
     }
