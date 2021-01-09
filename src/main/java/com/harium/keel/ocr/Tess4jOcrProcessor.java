@@ -5,15 +5,21 @@ import com.harium.keel.core.source.ImageSource;
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.TesseractException;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.util.Arrays;
 
 public class Tess4jOcrProcessor implements Processor<String> {
 
+    private static final String CONFIG_QUIET = "quiet";
     private static final String DEFAULT_LANG = "eng";
+    private static final String TESSERACT_CONFIG_WHITELIST = "tessedit_char_whitelist";
 
     private String language = DEFAULT_LANG;
     private String dataPath = "/usr/share/tesseract/tessdata";
+    private String whitelist = "";
 
     @Override
     public String apply(ImageSource feature) {
@@ -21,6 +27,10 @@ public class Tess4jOcrProcessor implements Processor<String> {
         instance.setDatapath(dataPath);
         instance.setLanguage(language);
         instance.setOcrEngineMode(1);
+        instance.setConfigs(Arrays.asList(CONFIG_QUIET));
+        if (!whitelist.isEmpty()) {
+            instance.setTessVariable(TESSERACT_CONFIG_WHITELIST, whitelist);
+        }
 
         BufferedImage image = getBufferedImage(feature);
         Rectangle rectangle = new Rectangle();
@@ -59,6 +69,11 @@ public class Tess4jOcrProcessor implements Processor<String> {
 
     public Tess4jOcrProcessor language(String language) {
         this.language = language;
+        return this;
+    }
+
+    public Tess4jOcrProcessor whitelist(String whitelist) {
+        this.whitelist = whitelist;
         return this;
     }
 
